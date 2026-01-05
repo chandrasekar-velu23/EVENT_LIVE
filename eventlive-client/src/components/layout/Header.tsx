@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const navItems = [
   { name: "Features", path: "/features" },
   { name: "Use Cases", path: "/use-cases" },
-  { name: "Pricing", path: "/pricing" },
   { name: "Security", path: "/security" },
   { name: "Resources", path: "/resources" },
   { name: "About", path: "/about" },
@@ -13,31 +12,37 @@ const navItems = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const hideNavbarRoutes = ["/login", "/get-started"];
+  if (hideNavbarRoutes.includes(location.pathname)) return null;
 
   return (
-    <header className="fixed w-full h-fit top-0 left-0 right-0 z-50 bg-[#3E5F44] text-white shadow-md">
-      <div className="mx-auto max-w-7xl px-8">
-        <div className="flex h-16 items-center justify-between">
+  
+    <header className="fixed inset-x-0 top-0 z-100 h-20 bg-brand-gradient border-b border-brand-accent">
+      <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8">
+        <div className="flex h-full items-center justify-between">
 
-          {/* Logo */}
-          <Link
-            to="/"
-            className="text-xl font-bold text-brandLight"
-          >
-            EVENTLIVE
+         
+          <Link to="/" className="flex items-center">
+            <img
+            src="/src/assets/logo.svg"
+            alt="EVENTLIVE Logo"
+            className=" p-2 h-35 w-50 md:h-25 lg:h-auto transition-transform hover:scale-105"
+          />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
-                  `text-sm font-medium transition ${
+                  `text-sm font-medium transition-colors ${
                     isActive
-                      ? "text-brand-light"
-                      : "text-white/100 hover:text-brand-light"
+                      ? "text-brand-primary"
+                      : "text-brand-dark hover:text-brand-primary"
                   }`
                 }
               >
@@ -47,17 +52,18 @@ export default function Header() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/login"
-              className="text-sm font-medium text-white/100 hover:text-brand-light"
+              className="text-sm font-medium text-brand-dark hover:text-brand-primary transition"
             >
               Login
             </Link>
 
+            {/* REPLACED with your extracted component class .btn-primary */}
             <Link
               to="/get-started"
-              className="rounded-lg bg-[#93da97] px-10 py-3 text-sm font-bold text-brand-dark hover:opacity-50 transition"
+              className="btn-primary"
             >
               Get Started
             </Link>
@@ -65,29 +71,29 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setOpen(!open)}
-            className="lg:hidden rounded-md p-2 text-white hover:bg-white/20 transition"
+            onClick={() => setOpen((v) => !v)}
+            className="lg:hidden bg-brand-primary rounded-md p-2 text-white hover:bg-brand-surface transition"
             aria-label="Toggle menu"
           >
-            ☰
+            {open ? "✕" : "☰"}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {open && (
-        <div className="lg:hidden bg-brand">
-          <nav className="space-y-2 px-4 py-4">
+        <div className="lg:hidden bg-brand-bg border-t border-brand-accent">
+          <nav className="space-y-1 px-4 py-4">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
                 to={item.path}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `block text-sm font-medium ${
+                  `block rounded-md px-3 py-2 text-sm font-medium transition ${
                     isActive
-                      ? "text-brand-dark bg-[#93da97] rounded px-3 py-2"
-                      : "text-white/90 hover:text-brand-dark hover:bg-[#93da97] rounded px-3 py-2"
+                      ? "bg-brand-surface text-brand-dark"
+                      : "text-brand-dark hover:bg-brand-surface"
                   }`
                 }
               >
@@ -98,15 +104,17 @@ export default function Header() {
             <NavLink
               to="/login"
               onClick={() => setOpen(false)}
-              className="block text-sm font-medium text-white/90 hover:bg-[#93da97] rounded px-3 py-2"
+              className="block rounded-md px-3 py-2 text-sm font-medium text-brand-dark hover:bg-brand-surface"
             >
               Login
             </NavLink>
 
+            {/* REPLACED with your extracted component class .btn-primary */}
+            {/* Added 'w-full block text-center' to ensure it looks right in the mobile menu */}
             <NavLink
               to="/get-started"
               onClick={() => setOpen(false)}
-              className="block rounded-lg bg-[#93da97] px-4 py-2 text-center text-sm font-semibold text-brand-dark"
+              className="btn-primary block text-center mt-4"
             >
               Get Started
             </NavLink>

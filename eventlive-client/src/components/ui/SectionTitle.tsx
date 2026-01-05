@@ -1,15 +1,22 @@
+type SectionTitleProps = {
+  title: string;
+  subtitle?: string;
+  className?: string; 
+};
+
 export default function SectionTitle({
   title,
   subtitle,
-}: {
-  title: string;
-  subtitle?: string;
-}) {
+  className = "",
+}: SectionTitleProps) {
   return (
-    <div className="text-center mb-12">
-      <h2 className="text-3xl font-bold text-brandDark">{title}</h2>
+    <div className={`mx-auto max-w-3xl text-center ${className}`}>
+      <h2 className="section-title">
+        {title}
+      </h2>
+
       {subtitle && (
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+        <p className="text-muted mt-4 text-lg">
           {subtitle}
         </p>
       )}

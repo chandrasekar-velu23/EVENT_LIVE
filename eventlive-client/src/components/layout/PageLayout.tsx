@@ -10,19 +10,25 @@ export default function PageLayout({
   children,
 }: PageLayoutProps) {
   return (
-    <section className="pt-32 pb-20 bg-brandBg min-h-screen">
-      <div className="max-w-5xl mx-auto px-6">
-        <h1 className="text-4xl font-extrabold text-brandDark">
+
+    <section className="min-h-screen bg-brand-bg pt-32 pb-20">
+      
+      <div className="section mx-auto max-w-5xl">
+        
+        <h1 className="section-title">
           {title}
         </h1>
 
         {subtitle && (
-          <p className="mt-4 text-lg text-gray-700 max-w-3xl">
+          
+          <p className="mt-4 text-lg text-brand-muted max-w-3xl">
             {subtitle}
           </p>
         )}
 
-        <div className="mt-10">{children}</div>
+        <div className="mt-10">
+          {children}
+        </div>
       </div>
     </section>
   );
